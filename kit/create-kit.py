@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import glob
 import shutil
 import subprocess as sub
 import sys
@@ -30,8 +31,8 @@ waf_tools=','.join([
 
 wafflelibdir=os.path.join(waffledir, 'wafflelib')
 lib_tools=os.path.realpath(wafflelibdir)
-
-tools=','.join([lib_tools,waf_tools])
+lib_tools=[p for p in glob.glob(os.path.join(lib_tools,"waffle*.py"))]
+tools=','.join([waf_tools]+lib_tools)
 
 
 println("::::::::::::::::::::::::")
