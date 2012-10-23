@@ -1,0 +1,88 @@
+# get waffle sources
+$ hg clone http://bitbucket.org/binet/waffle
+
+# get athena/cmt environment+sources
+$ cd /somewhere
+$ ave-login rel_5,devval
+$ pkgco.py -f pkg-list.txt
+
+# bootstrap waffle environment
+$ waf configure --prefix=install_area --cmtpkgs=somedir
+
+# build + install
+$ waf build -j8 install
+
+# run within the correct environment
+$ waf shell
+[waf] $ athena.py foo.py
+
+# exit the runtime environment
+[waf] $ ^D
+$
+
+#####
+## perfs:
+##
+
+cmt:
+ 389.67s user 876.89s system 198% cpu 10:38.94 total
+
+waf:
+ 189.36s user 126.67s system 183% cpu  2:52.51 total
+
+--- whole AtlasCore ---
+
+cmt: (-j8)
+2398.59s user 3389.31s system 188% cpu 51:13.49 total
+2386.02s user 2852.40s system 168% cpu 51:55.23 total
+2388.97s user 3074.42s system 186% cpu 48:51.58 total
+2403.46s user 3638.88s system 197% cpu 50:59.59 total
+2413.70s user 4342.41s system 213% cpu 52:37.36 total
+2384.69s user 2879.88s system 180% cpu 48:35.54 total
+2395.41s user 3305.96s system 185% cpu 51:16.84 total
+2404.32s user 3515.67s system 199% cpu 49:21.70 total
+2410.54s user 4290.27s system 208% cpu 53:26.47 total
+2408.99s user 4030.25s system 205% cpu 52:07.67 total
+2410.37s user 3195.94s system 189% cpu 49:14.32 total
+2413.18s user 4443.10s system 222% cpu 51:20.99 total
+2411.78s user 4455.29s system 215% cpu 53:08.50 total
+2411.69s user 4478.39s system 218% cpu 52:33.47 total
+2412.22s user 4436.20s system 195% cpu 58:21.08 total
+
+
+waf: (-j8)
+1570.74s user 196.24s system 564% cpu 5:13.15 total
+1571.88s user 195.35s system 568% cpu 5:10.79 total
+1570.49s user 195.82s system 564% cpu 5:12.84 total
+1572.18s user 196.05s system 570% cpu 5:09.83 total
+1573.49s user 196.89s system 565% cpu 5:12.85 total
+1572.11s user 196.19s system 565% cpu 5:12.72 total
+1573.81s user 196.38s system 570% cpu 5:10.47 total
+1574.58s user 196.01s system 568% cpu 5:11.60 total
+1572.37s user 195.68s system 567% cpu 5:11.76 total
+1568.69s user 197.35s system 562% cpu 5:14.09 total
+
+#### CLIDSvc ---
+find test-project/ares -name "*.h" -exec sed -i -e 's@CLIDSvc/CLASS_DEF.h@SGTools/CLASS_DEF.h@g' {} \;  
+find test-project/ares -name "*.h" -exec sed -i -e 's@CLIDSvc/tools/ClassID_traits.h@SGTools/ClassID_traits.h@g' {} \;
+
+and for .icc as well...
+
+### FIXMEs:
+
+ - fix java targets
+
+ - fix pure-header packages
+
+ - merge rootmap
+
+ - merge tpcnvdb
+
+ - merge genconfdb
+
+ - merge gencliddb
+
+ - handle defines PACKAGE_VERSION from svn-tag
+
+ - fix Valkyrie (kit)
+

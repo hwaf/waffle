@@ -1,0 +1,20 @@
+2012-01-17  Sebastien Binet  <sebastien.binet@cern.ch>
+
+	* new head for multi-proj-feature
+
+	* sync-ing with waffle from mana-core,mana-ext
+
+2011-10-10  Sebastien Binet  <sebastien.binet@cern.ch>
+
+	* sync-ing with waffle from mana-core
+
+2010-03-03  Sebastien Binet  <binet@voatlas51.cern.ch>
+
+	* adding some more files
+
+2010-02-26  Sebastien Binet  <binet@farnsworth>
+
+	* first commit
+	* A wafflelib/rootmap.py
+	* A wafflelib/waffle.py
+
