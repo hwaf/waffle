@@ -23,8 +23,8 @@ from waflib.TaskGen import feature, before_method, after_method, extension
 import waflib.Logs as msg
 
 # waffle imports
-import wafflelib.packaging
-import wafflelib.waffle_utils as waffle_utils
+import waflib.extras.waffle_packaging
+import waflib.extras.waffle_utils
 
 # constants -------------------------------------------------------------------
 WAFFLE_CFG = '.local.waffle.cfg'

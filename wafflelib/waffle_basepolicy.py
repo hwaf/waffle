@@ -1,4 +1,4 @@
-# basepolicy.py
+# waffle_basepolicy.py
 # a few waf functions to define compilation defaults
 
 # imports ---------------------------------------------------------------------
@@ -19,7 +19,7 @@ from waflib.TaskGen import feature, before_method, after_method, extension, afte
 import waflib.Logs as msg
 
 # waffle imports
-import waflib.extras.wafflelib.waffle_utils as waffle_utils
+import waflib.extras.waffle_utils
 
 # functions -------------------------------------------------------------------
 @conf

@@ -18,9 +18,9 @@ import waflib.Task
 import waflib.Utils
 
 # waffle imports
-import waflib.extras.wafflelib.waffle
-import waflib.extras.wafflelib.pkgdeps
-import waflib.extras.wafflelib.waffle_utils as waffle_utils
+import waflib.extras.waffle
+import waflib.extras.waffle_pkgdeps
+import waflib.extras.waffle_utils as waffle_utils
 
 ### ---------------------------------------------------------------------------
 def start(cwd, version, wafdir):

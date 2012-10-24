@@ -15,8 +15,8 @@ import waflib.Scripting
 import waflib.Utils
 
 # waffle imports
-import wafflelib.waffle as waffle
-import wafflelib.waffle_utils as waffle_utils
+import waflib.extras.waffle
+import waflib.extras.waffle_utils
 
 ### ---------------------------------------------------------------------------
 class SDist(waflib.Scripting.Dist):
