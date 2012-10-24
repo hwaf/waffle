@@ -22,9 +22,9 @@ import waflib.Context
 import waflib.Logs as msg
 
 # waffle imports
-import wafflelib.waffle as waffle
-import wafflelib.waffle_utils as waffle_utils
-import wafflelib.packaging as waffle_packaging
+import waflib.extras.waffle as waffle
+import waflib.extras.waffle_utils as waffle_utils
+import waflib.extras.waffle_packaging as waffle_packaging
 
 # functions -------------------------------------------------------------------
 

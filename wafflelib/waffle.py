@@ -209,13 +209,13 @@ def configure_cmtcfg(ctx):
     #ctx.load('python')
     #ctx.load('java')
 
-    ctx.load('wafflelib/external_packages')
+    ctx.load('waffle_external_packages')
 
     #ctx.load('boost')
 
-    ctx.load('wafflelib/basepolicy')
-    ctx.load('wafflelib/packaging')
-    ctx.load('wafflelib/pkgdeps')
+    ctx.load('waffle_basepolicy')
+    ctx.load('waffle_packaging')
+    ctx.load('waffle_pkgdeps')
 
     return
 
