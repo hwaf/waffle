@@ -19,7 +19,7 @@ from waflib.TaskGen import feature, before_method, after_method, extension, afte
 import waflib.Logs as msg
 
 # waffle imports
-import waflib.extras.waffle_utils
+import waflib.extras.waffle_utils as waffle_utils
 
 # functions -------------------------------------------------------------------
 @conf

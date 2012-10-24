@@ -23,8 +23,8 @@ from waflib.TaskGen import feature, before_method, after_method, extension
 import waflib.Logs as msg
 
 # waffle imports
-import waflib.extras.waffle_packaging
-import waflib.extras.waffle_utils
+import waflib.extras.waffle_packaging as waffle_packaging
+import waflib.extras.waffle_utils was waffle_utils
 
 # constants -------------------------------------------------------------------
 WAFFLE_CFG = '.local.waffle.cfg'
@@ -96,15 +96,15 @@ def options(ctx):
     ctx.load('python')
     #ctx.load('java')
 
-    ctx.load('wafflelib/external_packages')
+    ctx.load('waffle_external_packages')
 
     ctx.load('boost')
     ## local tools
     #ctx.load('rootmap', tooldir='waffle/wafflelib')
     #ctx.load('atlaspolicy', tooldir='waffle/wafflelib')
-    ctx.load('wafflelib/basepolicy')
-    ctx.load('wafflelib/packaging')
-    ctx.load('wafflelib/pkgdeps')
+    ctx.load('waffle_basepolicy')
+    ctx.load('waffle_packaging')
+    ctx.load('waffle_pkgdeps')
 
     
     pkgs = find_suboptions(WAFFLE_PKGDIR)

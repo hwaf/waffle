@@ -31,7 +31,7 @@ else:
     urlopen = request.urlopen
 
 # waffle imports
-import waflib.extras.waffle_utils
+import waflib.extras.waffle_utils as waffle_utils
 
 
 CACHEVAR = 'WAFCACHE_PACKAGE'
