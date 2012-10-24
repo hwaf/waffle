@@ -18,7 +18,7 @@ import waflib.Task
 import waflib.Utils
 
 # waffle imports
-import waflib.extras.waffle
+#import waflib.extras.waffle
 import waflib.extras.waffle_pkgdeps
 import waflib.extras.waffle_utils as waffle_utils
 
