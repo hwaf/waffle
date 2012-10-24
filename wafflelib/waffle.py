@@ -24,7 +24,7 @@ import waflib.Logs as msg
 
 # waffle imports
 import waflib.extras.waffle_packaging as waffle_packaging
-import waflib.extras.waffle_utils was waffle_utils
+import waflib.extras.waffle_utils as waffle_utils
 
 # constants -------------------------------------------------------------------
 WAFFLE_CFG = '.local.waffle.cfg'
