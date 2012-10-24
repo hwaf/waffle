@@ -2,9 +2,6 @@
 # @purpose the main entry point for driving the build and installation steps
 # @author Sebastien Binet <binet@cern.ch>
 
-# !! AUTOMATICALLY GENERATED !!
-# !! DO NOT EDIT !!
-
 # imports ---------------------------------------------------------------------
 import os
 
@@ -32,16 +29,16 @@ import wafflelib.packaging as waffle_packaging
 # functions -------------------------------------------------------------------
 
 def options(ctx):
-    ctx.load('wafflelib/waffle')
+    ctx.load('waffle')
     return
 
 def configure(ctx):
     # load the waffle tool(s)
-    ctx.load('wafflelib/waffle')
+    ctx.load('waffle')
     return
 
 def build(ctx):
-    ctx.load('wafflelib/waffle')
+    ctx.load('waffle')
     return
 
 def check(ctx):
