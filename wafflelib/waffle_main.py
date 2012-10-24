@@ -44,12 +44,13 @@ def start(cwd, version, wafdir):
 
     import sys
     sys.path += [os.path.dirname(wafflelib_dir)]
-    
-    wscript = os.path.join(wafflelib_dir, 'toplevel-wscript.py')
-    if os.path.exists(root_path):
-        os.remove(root_path)
-        pass
-    shutil.copy(src=wscript, dst=root_path)
+
+    if 0:
+        wscript = os.path.join(wafflelib_dir, 'toplevel-wscript.py')
+        if os.path.exists(root_path):
+            os.remove(root_path)
+            pass
+        shutil.copy(src=wscript, dst=root_path)
 
     try:
         waflib.Scripting.waf_entry_point(cwd, version, wafdir)
