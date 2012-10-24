@@ -52,11 +52,12 @@ os.chdir(os.path.join(waffledir,'src-waf'))
 ## '''
 
 waf_light = os.path.join(os.getcwd(), 'waf-light')
-cmd = [sys.executable,
-     waf_light,
-     '--tools=%s' % tools,
-     '--prelude=\tfrom waflib.extras import waffle_main;waffle_main.start(cwd, VERSION, wafdir);sys.exit(0)',
-     ]
+cmd = [
+    sys.executable,
+    waf_light,
+    '--tools=%s' % tools,
+    '--prelude=\tfrom waflib.extras import waffle_main;waffle_main.start(cwd, VERSION, wafdir);sys.exit(0)',
+    ]
 #println(":: cmd: %s" % cmd)
 
 sub.check_call(
