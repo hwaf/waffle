@@ -69,7 +69,7 @@ def configure_policy(ctx):
          '-DGAUDI_V20_COMPAT',
          '-DATLAS_GAUDI_V21',
          # FIXME: only meaningful for slc6-gcc4x...
-         #'-D__USE_XOPEN2K8'
+         '-D__USE_XOPEN2K8'
          ]
         )
     if waffle_utils._is_opt(ctx):
