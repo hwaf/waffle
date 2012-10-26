@@ -14,14 +14,15 @@ import waflib.Build
 import waflib.Logs
 import waflib.Logs as msg
 import waflib.Utils
-from waflib.Utils import subprocess
+
+# waffle imports
+import waflib.extras.waffle_subprocess as subprocess
 
 def exec_command(self, cmd, **kw):
     """this overrides the 'waf -v' debug output to be in a nice
     unix like format instead of a python list.
     Thanks to ita on #waf for this
     """
-    subprocess = waflib.Utils.subprocess
     kw['shell'] = isinstance(cmd, str)
     _cmd = cmd    
     if isinstance(cmd, (list,tuple)):

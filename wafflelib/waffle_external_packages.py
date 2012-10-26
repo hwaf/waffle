@@ -32,6 +32,7 @@ else:
 
 # waffle imports
 import waflib.extras.waffle_utils as waffle_utils
+import waflib.extras.waffle_subprocess as subprocess
 
 
 CACHEVAR = 'WAFCACHE_PACKAGE'
@@ -265,7 +266,7 @@ def declare_build_external(
             fout.write('++ cd %s\n' % cwd)
             fout.write('++ %s\n' % cmd)
             fout.flush()
-            Utils.subprocess.check_call(
+            subprocess.check_call(
                 Utils.to_list(cmd),
                 env=env,
                 stdout=fout,
@@ -285,7 +286,7 @@ def declare_build_external(
         if isinstance(cmd, str):
             cmd = Utils.to_list(cmd)
             pass
-        Utils.subprocess.check_call(
+        subprocess.check_call(
             cmd,
             env=env,
             stdout=fout,
@@ -302,7 +303,7 @@ def declare_build_external(
         fout.write('++ cd %s\n' % cwd)
         fout.write('++ %s\n' % cmd)
         fout.flush()
-        Utils.subprocess.check_call(
+        subprocess.check_call(
             Utils.to_list(cmd),
             env=env,
             stdout=fout,
@@ -320,7 +321,7 @@ def declare_build_external(
         fout.write('++ cd %s\n' % cwd)
         fout.write('++ %s\n' % cmd)
         fout.flush()
-        Utils.subprocess.check_call(
+        subprocess.check_call(
             Utils.to_list(cmd),
             env=env,
             stdout=fout,

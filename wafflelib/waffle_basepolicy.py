@@ -20,6 +20,7 @@ import waflib.Logs as msg
 
 # waffle imports
 import waflib.extras.waffle_utils as waffle_utils
+import waflib.extras.waffle_subprocess as subprocess
 
 # functions -------------------------------------------------------------------
 @conf
@@ -279,7 +280,7 @@ def configure_python(ctx, min_version=None):
                 ('--ldflags', 'LIBPATH'),
                 #('--cflags', 'CXXFLAGS'),
                 ]:
-        o = waflib.Utils.subprocess.check_output(
+        o = subprocess.check_output(
             [cmd, arg[0]]
             )
         o = str(o)

@@ -17,6 +17,7 @@ import waflib.Utils
 # waffle imports
 import waflib.extras.waffle as waffle
 import waflib.extras.waffle_utils as waffle_utils
+import waflib.extras.waffle_subprocess as subprocess
 
 ### ---------------------------------------------------------------------------
 class SDist(waflib.Scripting.Dist):
@@ -32,20 +33,20 @@ class SDist(waflib.Scripting.Dist):
         msg.info('creating archive [%s]...' % archive_name)
         ret = -1
         if self._is_hg_project():
-            ret = waflib.Utils.subprocess.Popen([
+            ret = subprocess.Popen([
                 'hg', 'archive', '--subrepos',
                 archive_name,
                 ]).wait()
         elif self._is_git_project():
-            p = waflib.Utils.subprocess.Popen(
+            p = subprocess.Popen(
                 ['git', 'name-rev', '--name-only', 'HEAD'],
-                stdout=waflib.Utils.subprocess.PIPE)
+                stdout=subprocess.PIPE)
             o = p.communicate()
             if p.returncode:
                 msg.fatal('could not determine git branch name:\n%s\n%s' %
                           o[0],o[1])
             git_object = o[0].strip()
-            ret = waflib.Utils.subprocess.Popen([
+            ret = subprocess.Popen([
                 'git', 'archive', '-o', archive_name,
                 git_object,
                 ]).wait()

@@ -25,6 +25,7 @@ import waflib.Logs as msg
 # waffle imports
 #import waflib.extras.waffle_packaging as waffle_packaging
 import waflib.extras.waffle_utils as waffle_utils
+import waflib.extras.waffle_subprocess as subprocess
 
 # constants -------------------------------------------------------------------
 WAFFLE_CFG = '.local.waffle.cfg'
@@ -296,7 +297,7 @@ def configure_project(ctx):
                     os.getcwd(),
                     ]
                 #print "++++>", _cmd
-                waflib.Utils.subprocess.Popen(_cmd).wait()
+                subprocess.Popen(_cmd).wait()
                 pass
             #ctx.recurse(pkg.abspath())
     #ctx.recurse(ctx.options.cmtpkgs)
@@ -1340,7 +1341,7 @@ def run_cmd_with_runtime_env(ctx, cmds):
     from string import Template as str_template
     cmds=' '.join(pipes.quote(str_template(s).safe_substitute(env)) for s in cmds)
 
-    retval = waflib.Utils.subprocess.Popen(
+    retval = subprocess.Popen(
         cmds,
         env=env,
         cwd=os.getcwd(),
@@ -1536,7 +1537,7 @@ def ishell(ctx):
             ctx.fatal('env[%s]=%r (%s)' % (k,v,type(v)))
             
 
-    retval = waflib.Utils.subprocess.Popen(
+    retval = subprocess.Popen(
         shell_cmd,
         env=env,
         cwd=os.getcwd()
