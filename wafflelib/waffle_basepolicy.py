@@ -148,7 +148,7 @@ def configure_policy(ctx):
             'SHLINKFLAGS',
             ['-Wl,--hash-style=both',
              '-Wl,--as-needed',
-             '-Wl,--no-undefined',
+             #'-Wl,--no-undefined',
              '-ldl'
              ]
             )
@@ -338,7 +338,8 @@ def configure_python(ctx, min_version=None):
     cmd = [ctx.env.PYTHON_CONFIG, "--prefix"]
     lines=ctx.cmd_and_log(cmd).split()
     ctx.env["PYTHON_PREFIX"] = lines[0]
-    
+    ctx.env["LIBPATH_python"] = [l.replace("6464", "64")
+                                 for l in ctx.env["LIBPATH_python"]]
     return
 
     
