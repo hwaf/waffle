@@ -857,8 +857,8 @@ def build_reflex_dict(self, name, source, selection_file, **kw):
         print(":"*80)
         # only add NDEBUG in dbg mode as it should already be added
         # by basepolicy.
-        kw['defines'].append('NDEBUGa')
-        aaa
+        kw['defines'].append('NDEBUG')
+        pass
         
     #libs = kw.get('libs', [])
     #kw['libs'] = libs + ['Reflex']
@@ -889,6 +889,8 @@ def build_reflex_dict(self, name, source, selection_file, **kw):
     kw['includes'] = dep_inc_dirs + kw['includes']
     target = kw['target'] = kw.get('target', name+'Dict')
     del kw['target']
+    defines= kw['defines']
+    del kw['defines']
     o = self.new_task_gen(
         features='gen_reflex cxx cxxshlib symlink_tsk',
         name='genreflex-%s' % name,
@@ -897,6 +899,7 @@ def build_reflex_dict(self, name, source, selection_file, **kw):
         reentrant=False,
         #libpath = self.env.LD_LIBRARY_PATH,
         libpath = self.env.LD_LIBRARY_PATH + [self.path.get_bld().abspath()],
+        defines=defines,
         **kw
         )
     o.env.GENREFLEX = self.env['GENREFLEX']
@@ -984,13 +987,14 @@ def build_pymodule(self, source, **kw):
         dir=False,
         relative_trick=True,
         )
-    _fixup_pymodule_install(
-        self,
-        name = 'py-%s' % PACKAGE_NAME,
-        source = pyfiles,
-        install_path_root = install_path_root
-        )
-    if 0:
+    if 1:
+        _fixup_pymodule_install(
+            self,
+            name = 'py-%s' % PACKAGE_NAME,
+            source = pyfiles,
+            install_path_root = install_path_root
+            )
+    else:
         self(
             features     = 'py',
             name         = 'py-%s' % PACKAGE_NAME,
