@@ -174,4 +174,30 @@ def copy_uselib_defs(ctx, dst, src):
     ctx.env.append_unique('DEFINES', 'HAVE_%s=1' % dst.upper())
     return
 
+### ---------------------------------------------------------------------------
+def define_uselib(ctx, name, libpath, libname, incpath, incname):
+    """
+    define_uselib creates the proper uselib variables based on the ``name``
+    with the correct library-path ``libpath``, library name ``libname``,
+    include-path ``incpath`` and header file ``incname``
+    """
+    n = name
+    if libpath:
+        libpath = waflib.Utils.to_list(libpath)
+        ctx.env['LIBPATH_%s'%n] = libpath
+        pass
+
+    if libname:
+        libname = waflib.Utils.to_list(libname)
+        ctx.env['LIB_%s'%n] = libname
+        pass
+    
+    if incpath:
+        incpath = waflib.Utils.to_list(incpath)
+        ctx.env['INCLUDES_%s'%n] = incpath
+        pass
+
+    ctx.env.append_unique('DEFINES', 'HAVE_%s=1' % name.upper())
+    return
+
 ## EOF ##
