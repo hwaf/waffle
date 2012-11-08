@@ -1258,7 +1258,7 @@ def _get_runtime_env(ctx):
         pass
 
     # catch-all
-    if not shell:
+    if not shell or "(deleted)" in shell:
         # fallback on the *login* shell
         shell = os.environ.get("SHELL", "/bin/sh")
         pass
