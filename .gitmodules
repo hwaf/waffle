@@ -1,0 +1,3 @@
+[submodule "src-waf"]
+	path = src-waf
+	url = git://github.com/mana-fwk/waf
