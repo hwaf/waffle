@@ -18,6 +18,7 @@ import waflib.Utils
 # waffle imports
 import waflib.extras.waffle_subprocess as subprocess
 
+
 def exec_command(self, cmd, **kw):
     """this overrides the 'waf -v' debug output to be in a nice
     unix like format instead of a python list.

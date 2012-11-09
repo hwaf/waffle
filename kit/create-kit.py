@@ -29,9 +29,16 @@ waf_tools=','.join([
     'parallel_debug',
     ])
 
-wafflelibdir=os.path.join(waffledir, 'wafflelib')
-lib_tools=os.path.realpath(wafflelibdir)
-lib_tools=[p for p in glob.glob(os.path.join(lib_tools,"waffle*.py"))]
+lib_tools = []
+
+libdir=os.path.join(waffledir, 'wafflelib')
+libdir=os.path.realpath(libdir)
+lib_tools += [p for p in glob.glob(os.path.join(libdir,"waffle*.py"))]
+
+libdir=os.path.join(waffledir, 'hep-waftools')
+libdir=os.path.realpath(libdir)
+lib_tools += [p for p in glob.glob(os.path.join(libdir,"*.py"))]
+
 tools=','.join([waf_tools]+lib_tools)
 
 
