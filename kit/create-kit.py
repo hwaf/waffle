@@ -62,6 +62,7 @@ waf_light = os.path.join(os.getcwd(), 'waf-light')
 cmd = [
     sys.executable,
     waf_light,
+    'configure', 'build',
     '--tools=%s' % tools,
     '--prelude=\tfrom waflib.extras import waffle_main;waffle_main.start(cwd, VERSION, wafdir);sys.exit(0)',
     ]

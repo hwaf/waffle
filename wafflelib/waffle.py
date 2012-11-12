@@ -1583,7 +1583,8 @@ def waffle_do_post_build(self):
     #bld_area = self.env['BUILD_INSTALL_AREA']
     #msg.info(":: bld-area: %s" % bld_area)
     node = ctx.bldnode.make_node(WAFFLE_PROJECT_INFO)
-    env = ctx.env.copy()
+    ctx.env.stash()
+    env = ctx.env
     # irrelevant
     del env.WAFFLE_ROOT
     #
@@ -1598,6 +1599,7 @@ def waffle_do_post_build(self):
         #cwd=jobo_dir,
         #relative_trick=True
         )
+    ctx.env.revert()
     return
 
 ### ---------------------------------------------------------------------------
