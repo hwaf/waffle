@@ -3,4 +3,4 @@
 	url = git://github.com/mana-fwk/waf
 [submodule "hep-waftools"]
 	path = hep-waftools
-	url = git@github.com:mana-fwk/hep-waftools
+	url = git://github.com/mana-fwk/hep-waftools
