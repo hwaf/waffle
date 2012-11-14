@@ -266,13 +266,16 @@ def declare_build_external(
             fout.write('++ cd %s\n' % cwd)
             fout.write('++ %s\n' % cmd)
             fout.flush()
-            subprocess.check_call(
+            sc = subprocess.call(
                 Utils.to_list(cmd),
                 env=env,
                 stdout=fout,
                 stderr=fout,
                 cwd=cwd
                 )
+            if sc != 0:
+                self.fatal("failed to patch [%s]\nlook into [%s]" %
+                           (name, fout.name))
             patch_stamp.write('')
 
     if not os.path.exists(configure_stamp.abspath()):
@@ -286,13 +289,16 @@ def declare_build_external(
         if isinstance(cmd, str):
             cmd = Utils.to_list(cmd)
             pass
-        subprocess.check_call(
+        sc = subprocess.call(
             cmd,
             env=env,
             stdout=fout,
             stderr=fout,
             cwd=cwd
             )
+        if sc != 0:
+            self.fatal("failed to configure [%s]\nlook into [%s]" %
+                       (name, fout.name))
         configure_stamp.write('')
 
     if not os.path.exists(make_stamp.abspath()):
@@ -303,7 +309,7 @@ def declare_build_external(
         fout.write('++ cd %s\n' % cwd)
         fout.write('++ %s\n' % cmd)
         fout.flush()
-        subprocess.check_call(
+        sc = subprocess.call(
             Utils.to_list(cmd),
             env=env,
             stdout=fout,
@@ -311,6 +317,9 @@ def declare_build_external(
             cwd=cwd,
             shell=shell
             )
+        if sc != 0:
+            self.fatal("failed to build [%s]\nlook into [%s]" %
+                       (name, fout.name))
         make_stamp.write('')
 
     if not os.path.exists(make_install_stamp.abspath()):
@@ -321,13 +330,16 @@ def declare_build_external(
         fout.write('++ cd %s\n' % cwd)
         fout.write('++ %s\n' % cmd)
         fout.flush()
-        subprocess.check_call(
+        sc = subprocess.call(
             Utils.to_list(cmd),
             env=env,
             stdout=fout,
             stderr=fout,
             cwd=cwd
             )
+        if sc != 0:
+            self.fatal("failed to install [%s]\nlook into [%s]" %
+                       (name, fout.name))
         make_install_stamp.write('')
 
     # create signatures for all nodes under ${BUNDLED_<name>_ROOT}
