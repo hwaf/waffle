@@ -908,7 +908,7 @@ def build_reflex_dict(self, name, source, selection_file, **kw):
         #'--quiet',
         '--debug',
         '--gccxmlopt=--gccxml-cxxflags', '--fail_on_warnings',
-        '--gccxmlopt=--gccxml-cxxflags', '-D__STRICT_ANSI__',
+        #'--gccxmlopt=--gccxml-cxxflags', '-D__STRICT_ANSI__',
         waflib.Utils.subst_vars('--gccxmlpath=${GCCXML_BINDIR}', o.env),        
         ]
     lib_name = "lib%s" % (o.target,) # FIXME !!
@@ -917,11 +917,10 @@ def build_reflex_dict(self, name, source, selection_file, **kw):
     
     if waffle_utils._is_32b(self):
         o.env.GCCXML_FLAGS.append('--gccxmlopt=-m32')
-        o.env.GCCXML_FLAGS.append('--gccxmlopt=--gccxml-cxxflags -m32')
     else:
         o.env.GCCXML_FLAGS.append('--gccxmlopt=-m64')
-        o.env.GCCXML_FLAGS.append('--gccxmlopt=--gccxml-cxxflags -m64')
-        
+        pass
+    
     o.env.GENREFLEX_SELECTION = self.path.find_resource(selection_file).abspath()
     o.env.GENREFLEX_DICTNAME = name
     return o
