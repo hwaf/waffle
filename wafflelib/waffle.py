@@ -909,7 +909,7 @@ def build_reflex_dict(self, name, source, selection_file, **kw):
         '--debug',
         '--gccxmlopt=--gccxml-cxxflags', '--fail_on_warnings',
         '--gccxmlopt=--gccxml-cxxflags', '-D__STRICT_ANSI__',
-        #'--gccxmlpath=',
+        waflib.Utils.subst_vars('--gccxmlpath=${GCCXML_BINDIR}', o.env),        
         ]
     lib_name = "lib%s" % (o.target,) # FIXME !!
     o.env.GENREFLEX_DSOMAP = '--rootmap=%s.dsomap' % lib_name
