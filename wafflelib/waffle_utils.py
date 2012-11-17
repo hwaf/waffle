@@ -89,13 +89,15 @@ def _dso_ext(ctx):
         raise RuntimeError('unhandled platform [%s]' % sys.platform)
     
 ### ---------------------------------------------------------------------------
-def _get_env_for_subproc(self):
+def _get_env_for_subproc(self, os_env_keys=None):
     import os
     #env = dict(os.environ)
     #waf_env = dict(self.env)
     #for k,v in waf_env.items():
     env = dict(self.env)
     for k,v in env.items():
+        if (not (os_env_keys is None)) and (not k in os_env_keys):
+            pass
         v = self.env[k]
         #print("-- %s %s %r" % (k, type(k), v))
         if isinstance(v, (list,tuple)):

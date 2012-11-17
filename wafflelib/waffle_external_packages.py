@@ -34,7 +34,6 @@ else:
 import waflib.extras.waffle_utils as waffle_utils
 import waflib.extras.waffle_subprocess as subprocess
 
-
 CACHEVAR = 'WAFCACHE_PACKAGE'
 
 @conf
@@ -106,6 +105,7 @@ def declare_build_external(
     install_cmd = None, # ex: 'make install DESTDIR=${BUILD_INSTALL_AREA}
     # --- build environment ---
     env = None,
+    os_env_keys = None,
     shell = False,
     ):
     # set defaults
@@ -148,6 +148,17 @@ def declare_build_external(
         install_dir = prefix.make_node(install_dir)
         #install_dir = self.root.make_node(install_dir)
 
+    if os_env_keys is None:
+        os_env_keys = []
+    os_env_keys += ['CXXFLAGS',
+                    'CCFLAGS',
+                    'CFLAGS',
+                    'CPPFLAGS',
+                    'LINKFLAGS',
+                    'CC',
+                    'CXX',
+                    'LD_LIBRARY_PATH','PATH','DYLD_LD_LIBRARY_PATH',]
+
     for d in (tmp_dir,
               stamp_dir,
               download_dir,
@@ -181,9 +192,11 @@ def declare_build_external(
     ## env...
     self.env['BUNDLED_%s_ROOT'%name.upper()] = install_dir.abspath()
     if env is None:
-        env = waffle_utils._get_env_for_subproc(self)
+        env = waffle_utils._get_env_for_subproc(self, os_env_keys)
     else:
-        senv = waffle_utils._get_env_for_subproc(self)
+        # do not modify user's env...
+        env = dict(env)
+        senv = waffle_utils._get_env_for_subproc(self, os_env_keys)
         for k in ('CXXFLAGS',
                   'CCFLAGS',
                   'CFLAGS',
@@ -194,6 +207,10 @@ def declare_build_external(
                   ):
             env[k] = senv[k]
             pass
+        pass
+    for k in env.keys():
+        if not k in os_env_keys:
+            del env[k]
     env['BUNDLED_%s_ROOT'%name.upper()] = install_dir.abspath()
         
 
@@ -255,7 +272,7 @@ def declare_build_external(
         if isinstance(cmd, str):
             cmd = shlex.split(cmd)
         return [Utils.subst_vars(c, self.env) for c in cmd]
-    
+
     ## real build...
     if patch_cmd:
         cmd = _get_cmd(patch_cmd)
