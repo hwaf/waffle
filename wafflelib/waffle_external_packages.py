@@ -157,6 +157,8 @@ def declare_build_external(
                     'LINKFLAGS',
                     'CC',
                     'CXX',
+                    'LINK_CC',
+                    'LINK_CXX',
                     'LD_LIBRARY_PATH','PATH','DYLD_LD_LIBRARY_PATH',]
 
     for d in (tmp_dir,
