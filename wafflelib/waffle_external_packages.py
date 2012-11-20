@@ -150,16 +150,7 @@ def declare_build_external(
 
     if os_env_keys is None:
         os_env_keys = []
-    os_env_keys += ['CXXFLAGS',
-                    'CCFLAGS',
-                    'CFLAGS',
-                    'CPPFLAGS',
-                    'LINKFLAGS',
-                    'CC',
-                    'CXX',
-                    'LINK_CC',
-                    'LINK_CXX',
-                    'LD_LIBRARY_PATH','PATH','DYLD_LD_LIBRARY_PATH',]
+    os_env_keys += self.env.HEPWAF_RUNTIME_ENVVARS[:]
 
     for d in (tmp_dir,
               stamp_dir,
@@ -215,7 +206,10 @@ def declare_build_external(
             del env[k]
     env['BUNDLED_%s_ROOT'%name.upper()] = install_dir.abspath()
         
-
+    for k,v in env.iteritems():
+        if not isinstance(v, str):
+            raise ValueError("invalid env.var: ${%s} = %r" % (k,v))
+        
     ## retrieve the sources...
     pkg_src = None
     if not (url is None):

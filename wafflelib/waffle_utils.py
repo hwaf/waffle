@@ -90,77 +90,10 @@ def _dso_ext(ctx):
     
 ### ---------------------------------------------------------------------------
 def _get_env_for_subproc(self, os_env_keys=None):
-    import os
-    #env = dict(os.environ)
-    #waf_env = dict(self.env)
-    #for k,v in waf_env.items():
-    env = dict(self.env)
-    for k,v in env.items():
-        if (not (os_env_keys is None)) and (not k in os_env_keys):
-            pass
-        v = self.env[k]
-        #print("-- %s %s %r" % (k, type(k), v))
-        if isinstance(v, (list,tuple)):
-            v = list(v)
-            for i,_ in enumerate(v):
-                if hasattr(v[i], 'abspath'):
-                    v[i] = v[i].abspath()
-                else:
-                    v[i] = str(v[i])
-                    pass
-                pass
-            # handle xyzPATH variables (LD_LIBRARY_PATH, PYTHONPATH,...)
-            if k.lower().endswith('path'):
-                #print (">>> %s: %r" % (k,v))
-                env[k] = os.pathsep.join(v)
-            else:
-                env[k] = ' '.join(v)
-        else:
-            env[k] = str(v)
-    bld_area = self.env['BUILD_INSTALL_AREA']
-
-    env['LD_LIBRARY_PATH'] = os.pathsep.join(
-        [os.path.join(bld_area,'lib')]
-        +waflib.Utils.to_list(self.env['LD_LIBRARY_PATH'])
-        +[os.environ.get('LD_LIBRARY_PATH','')])
-
-    env['PATH'] = os.pathsep.join(
-        [os.path.join(bld_area,'bin')]
-        +waflib.Utils.to_list(self.env['PATH'])
-        +[os.environ.get('PATH','')])
-
-    if _is_darwin(self):
-        env['DYLD_LIBRARY_PATH'] = os.pathsep.join(
-            [os.path.join(bld_area,'lib')]
-            +waflib.Utils.to_list(self.env['DYLD_LIBRARY_PATH'])
-            +[os.environ.get('DYLD_LIBRARY_PATH','')])
-        pass
-    
-    for k in ('CPPFLAGS',
-              'CFLAGS',
-              'CCFLAGS',
-              'CXXFLAGS',
-              'FCFLAGS',
-
-              'LINKFLAGS',
-              'SHLINKFLAGS',
-
-              'AR',
-              'ARFLAGS',
-
-              'CC',
-              'CXX',
-              'LINK_CC',
-              'LINK_CXX',
-              ):
-        v = self.env.get_flat(k)
-        env[k] = str(v)
-        pass
-
-    env['SHLINKFLAGS'] += ' '+self.env.get_flat('LINKFLAGS_cshlib')
-    env['SHEXT'] = _dso_ext(self)[1:]
-    return env
-
+    ctx = self
+    if not hasattr(ctx, "_get_env_for_subproc"):
+        ctx = ctx.generator.bld
+    return ctx._get_env_for_subproc(os_env_keys)
 
 ### ---------------------------------------------------------------------------
 def copy_uselib_defs(ctx, dst, src):
