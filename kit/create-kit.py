@@ -35,9 +35,9 @@ libdir=os.path.join(waffledir, 'wafflelib')
 libdir=os.path.realpath(libdir)
 lib_tools += [p for p in glob.glob(os.path.join(libdir,"waffle*.py"))]
 
-libdir=os.path.join(waffledir, 'hep-waftools')
-libdir=os.path.realpath(libdir)
-lib_tools += [p for p in glob.glob(os.path.join(libdir,"*.py"))]
+# libdir=os.path.join(waffledir, 'hep-waftools')
+# libdir=os.path.realpath(libdir)
+# lib_tools += [p for p in glob.glob(os.path.join(libdir,"*.py"))]
 
 tools=','.join([waf_tools]+lib_tools)
 
