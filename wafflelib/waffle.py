@@ -6,6 +6,7 @@
 import optparse
 import os
 import os.path
+import os.path as osp
 import shutil
 
 # waf imports
@@ -118,14 +119,21 @@ def configure(ctx):
     import os
     import os.path
 
-    g_module = waflib.Context.g_module
+    ctx.load('hep-waftools-base',   tooldir='hep-waftools')
+    ctx.load('hep-waftools-system', tooldir='hep-waftools')
     
+    g_module = waflib.Context.g_module
+
     ctx.env.PREFIX =         os.path.realpath(ctx.options.prefix)
     ctx.env.INSTALL_AREA =   ctx.env.PREFIX
-    ctx.env.CMTPKGS =        ctx.options.cmtpkgs
-    ctx.env.CMTCFG  =        ctx.options.cmtcfg
+    # taken from hepwaf: PROJNAME
+    # taken from hepwaf: CMTCFG
+    # taken from hepwaf: CMTPKGS
+    
     ctx.env.VERSION =        g_module.VERSION
-    ctx.env.WAFFLE_PROJNAME= g_module.APPNAME
+
+    # from hepwaf
+    ctx.env.WAFFLE_PROJNAME= ctx.env.PROJNAME
 
     # first, setup the correct variant: WAFFLE_CMTCFG
     ctx.configure_cmtcfg()
@@ -146,63 +154,14 @@ def configure(ctx):
 def configure_cmtcfg(ctx):
     g_module = waflib.Context.g_module
     g_module.WAFFLE_CMTCFG = ctx.env.CMTCFG
-    if ctx.env.CMTCFG in ('default', 'Darwin', 'Linux', 'Windows'):
-        msg.debug('detecting default CMTCFG...')
-        mana_arch = 'x86_64'
-        mana_os = 'linux'
-        mana_comp = 'gcc'
-        mana_build_type = 'opt'
-        if waffle_utils._is_darwin(ctx):
-            mana_os = 'darwin'
-        elif waffle_utils._is_linux(ctx):
-            mana_os = 'linux'
-        else:
-            mana_os = 'win'
-            pass
-
-        if waffle_utils._is_host_32b(ctx):
-            mana_arch = 'i686'
-        elif waffle_utils._is_host_64b(ctx):
-            mana_arch = 'x86_64'
-        else:
-            mana_arch = 'x86_64'
-            pass
-        WAFFLE_CMTCFG = '-'.join([mana_arch, mana_os,
-                                  mana_comp, mana_build_type])
-        ctx.env.CMTCFG = WAFFLE_CMTCFG
-        pass
-    
     ctx.env.WAFFLE_CMTCFG = ctx.env.CMTCFG
-    o = ctx.env.WAFFLE_CMTCFG.split('-')
-    assert len(o) == 4, \
-        "Invalid CMTCFG (%s). Expected ARCH-OS-COMP-OPT. ex: x86_64-linux-gcc-opt" % ctx.env.CMTCFG
-    
-    if o[1].startswith('mac'):
-        o[1] = 'darwin'
-    if o[1].startswith('slc'):
-        o[1] = 'linux'
-
-    if o[2].startswith('gcc'):
-        o[2] = 'gcc'
-
-    ctx.env.MANA_QUADRUPLET = o
+    ctx.env.MANA_QUADRUPLET = ctx.env.CFG_QUADRUPLET
     
     ctx.env.MANA_ARCH, \
     ctx.env.MANA_OS, \
     ctx.env.MANA_COMPILER, \
     ctx.env.MANA_BUILD_TYPE = ctx.env.MANA_QUADRUPLET
 
-    msg.info('='*80)
-    ctx.msg('project',    ctx.env.WAFFLE_PROJNAME)
-    ctx.msg('prefix',     ctx.env.PREFIX)
-    ctx.msg('pkg dir',    ctx.env.CMTPKGS)
-    ctx.msg('variant',    ctx.env.CMTCFG)
-    ctx.msg('arch',       ctx.env.MANA_ARCH)
-    ctx.msg('OS',         ctx.env.MANA_OS)
-    ctx.msg('compiler',   ctx.env.MANA_COMPILER)
-    ctx.msg('build-type', ctx.env.MANA_BUILD_TYPE)
-    msg.info('='*80)
-    
     ctx.load('c_config')
     ctx.load('compiler_cc')
     ctx.load('compiler_cxx')
@@ -231,7 +190,10 @@ def configure_project(ctx):
     
     g_module = waflib.Context.g_module
 
-    ctx.env.CMTPKGS = ctx.path.find_dir(ctx.env.CMTPKGS).abspath()
+    cmtpkgs = ctx.env.CMTPKGS
+    if not osp.abspath(cmtpkgs):
+        ctx.env.CMTPKGS = ctx.path.find_dir(cmtpkgs).abspath()
+        pass
     install_area = ctx.env.INSTALL_AREA
     ctx.env.INSTALL_AREA = install_area
     ctx.env.INSTALL_AREA_INCDIR = os.path.join(install_area,'include')
@@ -272,9 +234,8 @@ def configure_project(ctx):
     #        at least something more automagic and less hardcodish
     ctx.configure_policy()
    
-
-    pkgs = ctx.find_subpackages(ctx.options.cmtpkgs)
-    cmtpkg_root = ctx.path.find_dir(ctx.options.cmtpkgs).abspath()
+    pkgs = ctx.find_subpackages(ctx.env.CMTPKGS)
+    cmtpkg_root = ctx.path.find_dir(ctx.env.CMTPKGS).abspath()
 
     if ctx.cmd != 'clean':
         for pkg in pkgs:
@@ -460,7 +421,7 @@ def configure_projects_tree(ctx, projname=None, projpath=None):
 @conf
 def configure_pkgs(ctx):
 
-    ctx.build_pkg_deps(pkgdir=ctx.options.cmtpkgs)
+    ctx.build_pkg_deps(pkgdir=ctx.env.CMTPKGS)
     ctx.recurse(ctx.waffle_pkg_dirs())
     
     return
@@ -470,7 +431,7 @@ def build(ctx):
     #ctx.add_pre_fun(pre) 
     #ctx.add_post_fun(waffle_do_post_build)
 
-    pkgs = ctx.find_subpackages(ctx.options.cmtpkgs)
+    pkgs = ctx.find_subpackages(ctx.env.CMTPKGS)
     for pkg in pkgs:
         ctx.recurse(pkg.srcpath())
         pass
@@ -490,7 +451,14 @@ def test_complib(ctx):
 
 def find_subpackages(self, directory='.'):
     srcs = []
-    root_node = self.path.find_dir(directory)
+    dirname = directory
+    if osp.abspath(dirname):
+        dirname = osp.realpath(dirname)
+        root_node = self.root.find_dir(dirname)
+        #print ":::",dirname,root_node
+    else:
+        root_node = self.path.find_dir(dirname)
+        pass
     dirs = root_node.ant_glob('**/*', src=False, dir=True)#.split()
     for d in dirs:
         #msg.debug ("##> %s (type: %s)" % (d.abspath(), type(d)))

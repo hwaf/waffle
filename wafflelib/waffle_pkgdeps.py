@@ -5,6 +5,7 @@
 # imports ---------------------------------------------------------------------
 import os
 import os.path
+import os.path as osp
 
 # waf imports
 import waflib.Build
@@ -88,9 +89,15 @@ def waffle_pkg_dirs(self, projname=None):
 def build_pkg_deps(ctx, pkgdir=None):
     """process all packages and build the dependency graph"""
 
-    if pkgdir is None:
-        pkgdir = ctx.options.cmtpkgs
-    ctx.pkgdir = pkgdir = ctx.path.find_dir(pkgdir)
+    if pkgdir is None: pkgdir = ctx.options.cmtpkgs
+    if pkgdir is None: pkgdir = ctx.env.CMTPKGS
+    if osp.abspath(pkgdir):
+        pkgdir = osp.realpath(pkgdir)
+        pkgdir = ctx.root.find_dir(pkgdir)
+    else:
+        pkgdir = = ctx.path.find_dir(pkgdir)
+        pass
+    ctx.pkgdir = pkgdir 
     ctx.msg("pkg-dir", pkgdir.abspath())
     pkgs = ctx.find_subpackages(pkgdir.name)
     ctx.msg("local packages", str(len(pkgs)))
