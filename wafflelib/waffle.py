@@ -124,13 +124,19 @@ def configure(ctx):
     
     g_module = waflib.Context.g_module
 
-    ctx.env.PREFIX =         os.path.realpath(ctx.options.prefix)
-    ctx.env.INSTALL_AREA =   ctx.env.PREFIX
+    # taken from hepwaf: PREFIX
     # taken from hepwaf: PROJNAME
     # taken from hepwaf: CMTCFG
     # taken from hepwaf: CMTPKGS
-    
+   
     ctx.env.VERSION =        g_module.VERSION
+
+    ctx.env.INSTALL_AREA = osp.join(
+        ctx.env.PREFIX,
+        ctx.env.PROJNAME,
+        ctx.env.VERSION,
+        ctx.env.CMTCFG,
+        )
 
     # from hepwaf
     ctx.env.WAFFLE_PROJNAME= ctx.env.PROJNAME
