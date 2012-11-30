@@ -873,6 +873,7 @@ def build_reflex_dict(self, name, source, selection_file, **kw):
         reentrant=False,
         #libpath = self.env.LD_LIBRARY_PATH,
         libpath = self.env.LD_LIBRARY_PATH + [self.path.get_bld().abspath()],
+        install_path='${INSTALL_AREA}/lib',
         defines=defines,
         **kw
         )
