@@ -60,7 +60,7 @@ cmd = [
     waf_light,
     'configure', 'build',
     '--tools=%s' % tools,
-    '--prelude=\tfrom waflib.extras import waffle_main;waffle_main.start(cwd, VERSION, wafdir);sys.exit(0)',
+    #'--prelude=\tfrom waflib.extras import waffle_main;waffle_main.start(cwd, VERSION, wafdir);sys.exit(0)',
     ]
 #println(":: cmd: %s" % cmd)
 
