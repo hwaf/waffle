@@ -14,8 +14,10 @@ waffledir=os.path.dirname(kitdir)
 
 waf_tools=','.join([
     'batched_cc',
+    'bjam',
     'compat',
     'compat15',
+    'doxygen',
     'ocaml',
     'go',
     'cython',
